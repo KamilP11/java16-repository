@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public abstract class Animal {
     private static final int NAME_MIN_LEN = 1;
-    private String name;
+    protected String name;
 
     public Animal(String name) {
 

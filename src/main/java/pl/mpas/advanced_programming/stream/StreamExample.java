@@ -1,7 +1,9 @@
 package pl.mpas.advanced_programming.stream;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,11 +45,33 @@ public class StreamExample {
                 .collect(Collectors.toList());
     }
 
-    public static BigDecimal sumMyItems (List<Order> orders){
+    public static List<String> getIngredientsNamesWithReduce (List<Order> orders){
 
+        List<String> result = new ArrayList<>();
         return orders.stream()
-                .flatMap(order -> order.getMyItems()stream())
-                .map(item ->item.getPrice())
-                .reduce(BigDecimal.ZERO, (bigDecimal, bigDecimal2) -> bigDecimal.add(bigDecimal2)));
+                .flatMap(order -> order.getMyItems().stream())
+                .flatMap(item -> item.getIngredientsList().stream())
+                //.map(ingredient -> ingredient.getName())
+                .map(Ingredient::getName)
+                .distinct()
+                .reduce(result, (strings, s) -> {
+                    strings.add(s);
+                    System.out.println(strings);
+                    return strings;
+                },
+                        (strings, strings2) -> {
+                    strings.addAll(strings2);
+                            return strings2;
+                        });
+
+
     }
+
+//    public static BigDecimal sumMyItems (List<Order> orders){
+//
+//        return orders.stream()
+//                .flatMap(order -> order.getMyItems()stream())
+//                .map(item ->item.getPrice())
+//                .reduce(BigDecimal.ZERO, (bigDecimal, bigDecimal2) -> bigDecimal.add(bigDecimal2)));
+//    }
 }
