@@ -17,7 +17,7 @@ public class AtomicExample {
             do {
                 currentValue = i.intValue();
 
-            } while (i.compareAndSet(currentValue, currentValue + 2));
+            } while (!i.compareAndSet(currentValue, currentValue + 2));
 
         };
 
